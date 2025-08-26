@@ -1,0 +1,45 @@
+name: miapp
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD_FILE:  /var/run/secrets/mi_secreto
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    secrets:
+      - mi_secreto
+    deploy:
+      resources:
+        limits:
+          cpus: "6"
+          memory: "512M"
+        reservations:
+          cpus: "2"
+          memory: "256M"
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DB_HOST:  ${DB_HOST}
+      DB_USERNAME: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+      APP_VERSION: ${APP_VERSION:-1.0.0}
+    ports:
+      - "3000:4000"
+    secrets:
+      - mi_secreto
+volumes:
+  db_data:
+secrets:
+  mi_secreto:
+    file: vault.txt

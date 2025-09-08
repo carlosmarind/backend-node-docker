@@ -13,7 +13,7 @@ export class AppService {
     let count = 0;
 
     // Bucle que consume CPU por al menos 1 segundo
-    while (Date.now() - start < 1000) {
+    while (Date.now() - start < 10000) {
       count += Math.sqrt(Math.random() * Math.random());
     }
 

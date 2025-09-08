@@ -83,27 +83,6 @@ spec:
     targetPort: 4000
   type: ClusterIP
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: backend-node-ingress
-spec:
-  ingressClassName: nginx
-  tls:
-  - hosts:
-    - backend.devops.cl
-  rules:
-  - host: backend.devops.cl
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: backend-node-service
-            port:
-              number: 80
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -175,6 +154,27 @@ spec:
   - port: 5432
     targetPort: 5432
 ---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend-node-ingress
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - backend.devops.cl
+  rules:
+  - host: backend.devops.cl
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: backend-node-service
+            port:
+              number: 80
+---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -193,3 +193,24 @@ spec:
       target:
         type: Utilization
         averageUtilization: 50
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 15 # Espera 15s para estabilizar antes de subir
+      selectPolicy: Max
+      policies:
+      - type: Pods
+        value: 2 # Máximo 2 pods nuevos por periodo
+        periodSeconds: 15
+      - type: Percent
+        value: 50 # O hasta 50% de los pods actuales
+        periodSeconds: 15
+    scaleDown:
+      stabilizationWindowSeconds: 30 # Espera 30s antes de bajar pods
+      selectPolicy: Max
+      policies:
+      - type: Pods
+        value: 2 # Máximo 2 pods menos por periodo
+        periodSeconds: 15
+      - type: Percent
+        value: 25 # O hasta 25% de los pods actuales
+        periodSeconds: 15

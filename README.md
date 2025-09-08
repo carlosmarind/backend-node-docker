@@ -70,6 +70,11 @@ $ mau deploy
 
 With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
 
+## test de stress
+
+```bash
+$ ab -t 60 -c 20 -k -v 1 https://backend.devops.cl/cpu
+```
 ## Resources
 
 Check out a few resources that may come in handy when working with NestJS:

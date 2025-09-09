@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'debian'}
+    agent { label 'wsl'}
     stages {
         stage('Dependencias y Test'){
             steps {

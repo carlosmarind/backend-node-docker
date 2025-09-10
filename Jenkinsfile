@@ -1,15 +1,9 @@
 pipeline {
-    agent { 
-        docker { 
-            image 'node:24-alpine'
-            label 'wsl'
-            }
-    }
+    agent { label 'wsl' }
     stages {
-        stage('Build de aplicacion Node'){
+        stage('Build docker application aplicacion Node'){
             steps {
-                sh 'node -v'
-                sh 'npm install'
+                sh 'docker build -t backend-node-docker:latest .'
             }   
         }
     }

@@ -5,6 +5,7 @@ pipeline {
             steps {
                 sh 'docker build -t backend-node-docker:latest .'
                 sh 'docker tag backend-node-docker:latest ghcr.io/carlosmarind/backend-node-docker'
+                sh 'docker push ghcr.io/carlosmarind/backend-node-docker'
             }   
         }
     }

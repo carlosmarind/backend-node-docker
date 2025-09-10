@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage('Build de aplicacion Node'){
             steps {
+                sh 'node -v'
                 sh 'npm install'
             }   
         }

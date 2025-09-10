@@ -1,13 +1,9 @@
 pipeline {
     agent { label 'wsl'}
     stages {
-        stage('Dependencias y Test'){
+        stage('Build de aplicacion Node'){
             steps {
-                sh 'echo "saludos desde mi primer pipeline"'
-                sh 'echo "nuevo saludo desde mi primer pipeline"'
-                sh 'docker ps'
-                sh 'ls  -l'
-                sh 'pwd'
+                sh 'npm install'
             }   
         }
     }

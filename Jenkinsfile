@@ -7,7 +7,9 @@ pipeline {
                     docker.withRegistry("https://ghcr.io", "reg-cred-id"){
                         sh 'docker build -t backend-node-docker:latest .'
                         sh 'docker tag backend-node-docker:latest ghcr.io/carlosmarind/backend-node-docker'
+                        sh "docker tag backend-node-docker:latest ghcr.io/carlosmarind/backend-node-docker:${env.BRANCH_NAME}"
                         sh 'docker push ghcr.io/carlosmarind/backend-node-docker'
+                        sh "docker push ghcr.io/carlosmarind/backend-node-docker:${env.BRANCH_NAME}"
                         sh "echo 'branch: ${env.BRANCH_NAME}'"
                         sh "echo 'build: ${env.BUILD_NUMBER}'"
                     }

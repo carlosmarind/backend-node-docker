@@ -9,7 +9,7 @@ pipeline {
                         sh 'docker tag backend-node-docker:latest ghcr.io/carlosmarind/backend-node-docker'
                         sh "docker tag backend-node-docker:latest ghcr.io/carlosmarind/backend-node-docker:${env.BUILD_NUMBER}"
                         sh 'docker push ghcr.io/carlosmarind/backend-node-docker'
-                        sh "docker push ghcr.io/carlosmarind/backend-node-docker:${env.BRANCH_NAME}"
+                        sh "docker push ghcr.io/carlosmarind/backend-node-docker:${env.BUILD_NUMBER}"
                         sh "echo 'branch: ${env.BRANCH_NAME}'"
                         sh "echo 'build: ${env.BUILD_NUMBER}'"
                     }

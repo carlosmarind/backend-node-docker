@@ -1,6 +1,7 @@
 pipeline {
-    kubernetes  {
-        yaml """
+    agent {
+        kubernetes  {
+            yaml """
 apiVersion: v1
 kind: Pod
 spec:
@@ -8,8 +9,9 @@ spec:
   containers:
   -  name: node
      image: node:24-alpine
-        """
-    }  
+            """
+        }
+    }
     stages {
         stage('Build docker application aplicacion Node'){
             steps {

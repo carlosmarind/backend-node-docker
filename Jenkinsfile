@@ -13,6 +13,16 @@ spec:
   -  name: kubectl
      image: alpine/k8s:1.32.2
      command: ["/bin/sh", "-c","tail -f /dev/null"]
+  -  name: kaniko
+     image: gcr.io/kaniko-project/executor:debug
+     command: ["/bin/sh", "-c","tail -f /dev/null"]
+     volumeMounts:
+     - name: kaniko-secret
+       mountPath: /kaniko/.docker
+  volumes:
+  - name: kaniko-secret
+    secret:
+      secretName: ghcr-registry
             """
         }
     }
@@ -28,6 +38,14 @@ spec:
             steps {
                 container('kubectl'){
                     sh 'kubectl get pod'
+                }
+            }   
+        }
+        stage('Build image'){
+            steps {
+                container('kaniko'){
+                    sh 'ls -l /kaniko/.docker'
+                    sh 'cat /kaniko/.docker/.dockerconfigjson'
                 }
             }   
         }

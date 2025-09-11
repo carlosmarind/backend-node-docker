@@ -50,6 +50,9 @@ spec:
                         --context=. \
                         --dockerfile=Dockerfile \
                         --destination=ghcr.io/carlosmarind/backend-node-docker:${env.BUILD_NUMBER}
+                        --image-fs-extract-retry 5
+                        --push-retry
+
                    """
                 }
             }   

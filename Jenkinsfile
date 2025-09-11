@@ -33,6 +33,7 @@ spec:
                 container('kaniko'){
                    sh """
                         /kaniko/executor \
+                        --image-fs-extract-retry 5 \
                         --context=. \
                         --dockerfile=Dockerfile \
                         --destination=ghcr.io/carlosmarind/backend-node-docker:${env.BUILD_NUMBER}

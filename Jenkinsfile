@@ -9,6 +9,7 @@ spec:
   containers:
   -  name: node
      image: node:24-alpine
+     command: ["/bin/bash", "-c","tail -f /dev/null"]
             """
         }
     }

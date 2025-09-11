@@ -18,7 +18,8 @@ spec:
      command: ["/bin/sh", "-c","tail -f /dev/null"]
      volumeMounts:
      - name: kaniko-secret
-       mountPath: /kaniko/.docker
+       mountPath: /kaniko/.docker/config.json
+       subPath: .dockerconfigjson
   volumes:
   - name: kaniko-secret
     secret:
@@ -44,8 +45,8 @@ spec:
         stage('Build image'){
             steps {
                 container('kaniko'){
-                    sh 'ls -l /kaniko/.docker'
-                    sh 'cat /kaniko/.docker/.dockerconfigjson'
+                    sh 'ls -la /kaniko/.docker'
+                    sh 'cat /kaniko/.docker/config.json'
                 }
             }   
         }

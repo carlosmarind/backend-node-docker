@@ -10,6 +10,9 @@ spec:
   -  name: node
      image: node:24-alpine
      command: ["/bin/sh", "-c","tail -f /dev/null"]
+  -  name: kubectl
+     image: alpine/k8s:1.32.2
+     command: ["/bin/sh", "-c","tail -f /dev/null"]
             """
         }
     }
@@ -18,6 +21,13 @@ spec:
             steps {
                 container('node'){
                     sh 'node --version'
+                }
+            }   
+        }
+        stage('kubectl para cluster'){
+            steps {
+                container('kubectl'){
+                    sh 'kubectl get pod'
                 }
             }   
         }

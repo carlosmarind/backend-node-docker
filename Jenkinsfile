@@ -45,7 +45,7 @@ spec:
         stage('kubectl para cluster'){
             steps {
                 container('kubectl'){
-                    sh "kubectl set image deployments/backend-node backend-node=ghcr.io/carlosmarind/backend-node-docker:${env.BUILD_NUMBER}"
+                    sh "kubectl set image -n curso-contenedores deployments/backend-node backend-node=ghcr.io/carlosmarind/backend-node-docker:${env.BUILD_NUMBER}"
                     sh 'kubectl get pod'
                 }
             }   

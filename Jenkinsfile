@@ -45,8 +45,12 @@ spec:
         stage('Build image'){
             steps {
                 container('kaniko'){
-                    sh 'ls -la /kaniko/.docker'
-                    sh 'cat /kaniko/.docker/config.json'
+                   sh """
+                        /kaniko/executor \
+                        --context=. \
+                        --dockerfile=Dockerfile \
+                        --destination=ghcr.io/carlosmarind/backend-node-docker:${env.BUILD_NUMBER}
+                   """
                 }
             }   
         }

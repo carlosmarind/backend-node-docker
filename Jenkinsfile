@@ -28,20 +28,6 @@ spec:
         }
     }
     stages {
-        stage('Build docker application aplicacion Node'){
-            steps {
-                container('node'){
-                    sh 'node --version'
-                }
-            }   
-        }
-        stage('kubectl para cluster'){
-            steps {
-                container('kubectl'){
-                    sh 'kubectl get pod'
-                }
-            }   
-        }
         stage('Build image'){
             steps {
                 container('kaniko'){
@@ -50,7 +36,16 @@ spec:
                         --context=. \
                         --dockerfile=Dockerfile \
                         --destination=ghcr.io/carlosmarind/backend-node-docker:${env.BUILD_NUMBER}
+                        --destination=ghcr.io/carlosmarind/backend-node-docker:latest
                    """
+                }
+            }   
+        }
+        stage('kubectl para cluster'){
+            steps {
+                container('kubectl'){
+                    sh "kubectl set image deployments/backend-node backend-node=ghcr.io/carlosmarind/backend-node-docker:${env.BUILD_NUMBER}"
+                    sh 'kubectl get pod'
                 }
             }   
         }

@@ -19,8 +19,9 @@ pipeline {
         stage('deploy app'){
             steps {
                 script{
-                    //docker.withRegistry("https://ghcr.io", "reg-cred-id"){
+                   withKubeConfig([credentialsId: 'kubeconfig-dev', namespace: "curso-contenedores"]){
                         sh "kubectl set image deployment/backend-node backend-node=ghcr.io/carlosmarind/backend-node-docker:${env.BUILD_NUMBER}"
+                   }
                 }
             }   
         }

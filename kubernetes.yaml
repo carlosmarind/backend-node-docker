@@ -242,3 +242,32 @@ roleRef:
   kind: ClusterRole
   name: jenkins-admin
   apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-account
+  namespace: curso-contenedores
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: contenedores-admin
+  namespace: curso-contenedores
+rules:
+- apiGroups: [ "", "apps", "extensions", "batch", "networking.k8s.io" ] # kubectl api-resources -o=wide
+  resources: [ "*" ]
+  verbs: [ "*" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: contenedores-admin-binding
+subjects:
+- kind: ServiceAccount
+  name: admin-account
+  namespace: curso-contenedores
+roleRef:
+  kind: Role
+  name: contenedores-admin
+  apiGroup: rbac.authorization.k8s.io
